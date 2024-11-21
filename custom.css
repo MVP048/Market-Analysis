@@ -1,0 +1,127 @@
+/* Hide all subchapter lists initially */
+.book .chapter ul {
+  display: none;
+}
+
+/* When a chapter has the 'open' class, show subchapters */
+.book .chapter.open ul {
+  display: block;
+}
+
+/* Remove arrows for expandable chapters (just remove the `::after` part) */
+.book .chapter > a::after {
+  content: "";  /* No arrow for both open and closed states */
+  font-size: 0;  /* Optionally remove the font size to avoid any space */
+}
+
+/* Enable smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Additional styling for the chapters and subchapters */
+.book .chapter ul {
+  display: none; /* Hide subchapters by default */
+}
+
+.book .chapter.open ul {
+  display: block; /* Show subchapters when the chapter is open */
+}
+
+/* Style for the logo in the sidebar */
+.book-logo {
+  text-align: center;
+  margin: 0;
+   padding: 0;
+}
+
+.book-logo img {
+  width: auto;  /* Ensure the logo is responsive */
+  height: auto;
+}
+
+.chapter-authors {
+  font-size: 14px;
+  color: #555;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  line-height: 1.5;
+}
+
+.chapter-authors ul {
+  margin: 10px 0 0 20px;
+  list-style-type: disc;
+}
+
+.chapter-authors p {
+  margin: 5px 0;
+}
+
+.custom-legend {
+  font-size: 14px; /* Adjust text size */
+  margin-top: 20px; /* Add spacing from the content above */
+  color: #333; /* Adjust text color */
+}
+
+.custom-legend ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+
+.custom-legend li {
+  margin: 5px 0; /* Add spacing between names */
+}
+
+.title {
+  text-align: center; /* Centers the title globally */
+  font-size: 20px;
+  margin-top: 30px; /* Add spacing above */
+  margin-bottom: -5px; /* Add spacing below */
+  color: #FFCC33; /* Adjust the color */
+   font-family: "Georgia", serif; 
+   max-width: none;
+   width: 100%;
+   overflow: visible; /* Ensure the text isn't cut off */
+    text-overflow: clip;
+}
+
+h1 {
+  font-family: "Lora", serif; /* Specify the font family */
+  font-size: 22px; /* Adjust font size */
+  font-weight: bold; /* Make the font bold */
+  color: #CD3333; /* Adjust text color */
+  text-align: center; /* Center-align chapter titles */
+  margin-top: 5px; /* Add spacing above */
+  margin-bottom: 10px; /* Add spacing below */
+}
+
+h2 {
+  font-family: "Lora", serif; /* Match the font with chapter titles */
+  font-size: 20px; /* Adjust size for subtitles */
+  font-weight: normal; /* Keep it less bold for distinction */
+  color: #FF0000; /* Light blue color */
+  text-align: left; 
+  margin-top: 10px; /* Add spacing above */
+  margin-bottom: 5px; /* Add spacing below */
+}
+
+img.flag {
+  width: 50%; /* Adjust the size of the image */
+  height: auto; /* Maintain the aspect ratio */
+  display: block;
+  margin: 0 auto; /* Center the image */
+  margin-top: -30px; /* Reduce space above the image */
+  margin-bottom: 0; /* Bring the image closer to the title */
+}
+
+h1 + img.flag {
+  margin-top: -30px; /* Reduce space between the title and the image */
+}
+
+p {
+  font-family: "Times New Roman", serif; /* Replace with your desired font */
+}
+
+
+

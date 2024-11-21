@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Company | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Company | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Company | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="supply.html"/>
+<link rel="next" href="conclusions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script>
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.7
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.7
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+/* jshint latedef: false */
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
+                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.7'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $this.data()
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+</script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.js');
+  rCodeBlocks.each(function() {
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+    });
+  });
+
+}
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.7
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.7'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+    })
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger($.Event('shown.bs.dropdown', relatedTarget))
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('.dropdown-menu' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+}(jQuery);
+</script>
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+.row { display: flex; }
+.collapse { display: none; }
+.in { display: block; }
+.pull-right > .dropdown-menu { right: 0; left: auto; }
+.open > .dropdown-menu { display: block; }
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+#code-button-container { position: fixed !important; top: 10px; right: 10px; z-index: 200; }
+</style>
+<script>
+$(document).ready(function () {
+window.initializeCodeFolding(false);
+});
+</script>
+<script>
+document.write('<div class="btn-group pull-right" style="position: absolute; top: 10px; right: 10px; z-index: 200">
+  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast="">
+    <span>Code</span> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" style="min-width: 50px;">
+    <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+    <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+  </ul>
+</div>');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<div class="book-logo">
+  <img src="logounitrento.jpg" alt="Book Logo" style="width: 250px; margin-bottom: 5px;">
+</div>
+<script src="custom.js"></script>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html"><i class="fa fa-check"></i>Scenario and Market</a>
+<ul>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#gdp-per-capita"><i class="fa fa-check"></i>GDP per Capita</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#unemployment"><i class="fa fa-check"></i>Unemployment</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#consumption"><i class="fa fa-check"></i>Consumption</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html"><i class="fa fa-check"></i>Demand</a>
+<ul>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#population-gdp-and-consumption-per-capita"><i class="fa fa-check"></i>Population, GDP and Consumption per Capita</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#share-of-revenues"><i class="fa fa-check"></i>Share of Revenues</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#average-price-and-sweet-snacks-quantity"><i class="fa fa-check"></i>Average Price and Sweet Snacks Quantity</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#vegetarians-and-vegans"><i class="fa fa-check"></i>Vegetarians and vegans</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html"><i class="fa fa-check"></i>Supply</a>
+<ul>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#active-enterprises-average-price"><i class="fa fa-check"></i>Active enterprises, Average Price</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#number-of-employees"><i class="fa fa-check"></i>Number of employees</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#investment-in-machinery-and-equipment-added-value"><i class="fa fa-check"></i>Investment in machinery and equipment / Added value</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#cost-of-labour-productivity"><i class="fa fa-check"></i>Cost of Labour / Productivity</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#c4-index"><i class="fa fa-check"></i>C4 Index</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#modern-distribution-channels"><i class="fa fa-check"></i>Modern Distribution Channels</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html"><i class="fa fa-check"></i>Company</a>
+<ul>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#a-brief-history"><i class="fa fa-check"></i>A brief history</a></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#companys-performance"><i class="fa fa-check"></i>Company’s performance</a></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#swot-analysis"><i class="fa fa-check"></i>SWOT analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusions.html"><a href="conclusions.html"><i class="fa fa-check"></i>Conclusions</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#sweet-snacks-consumption-volumes"><i class="fa fa-check"></i>Sweet snacks consumption volumes</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#sweet-snacks-values"><i class="fa fa-check"></i>Sweet Snacks Values</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#values-cross-country"><i class="fa fa-check"></i>Values Cross Country</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#average-retail-price"><i class="fa fa-check"></i>Average Retail Price</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#employees-per-company"><i class="fa fa-check"></i>Employees per Company</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#segments"><i class="fa fa-check"></i>Segments</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#subsegments"><i class="fa fa-check"></i>Subsegments</a></li>
+</ul></li>
+<li class="divider"></li>
+<div class="custom-legend">
+  <p><strong>Professor:</strong> Matteo Ploner</p>
+  <p><strong>Tutor:</strong> Vittorio Guida</p>
+  <p><strong>Group Members:</strong></p>
+  <ul>
+    <li>Matteo Paganessi</li>
+    <li>Andrii Solomka</li>
+    <li>Maeve Pizzolon</li>
+    <li>Fernando Nabal Claverie</li>
+    <li>Alex Rodriguez Mari</li>
+  </ul>
+</div>
+<li><a href="https://github.com/rstudio/bookdown" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="company" class="section level1 unnumbered hasAnchor">
+<h1>Company<a href="company.html#company" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="a-brief-history" class="section level2 unnumbered hasAnchor">
+<h2>A brief history<a href="company.html#a-brief-history" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Founded in 1892 in Aguilar de Campo, Galletas Gullón was initially a small, family-owned bakery, producing traditional Spanish biscuits. Over time, the company adapted to changing consumer needs, becoming one of the first in Spain to develop healthy products like sugar-free and high-fiber biscuits.</p>
+<p>As demand grew, Gullón invested significantly in research and development to broaden its product range, introducing new lines in microsectors like gluten-free, organic, and whole-grain diets and modernizing its operations to increase production efficiency, allowing it to compete in international markets.</p>
+<p>Sustainability also became a priority for Gullón, with initiatives aimed at reducing environmental impact. The company’s production plants are designed for energy efficiency while the packaging has migrated towards eco-friendly sustainable materials. These efforts support Gullón’s expansion into over 100 countries, helping the company maintain a competitive position globally.</p>
+<p>Today, Galletas Gullón is still family-owned, managed by a board who prioritize quality and tradition while driving international growth.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="company.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb22-2"><a href="company.html#cb22-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb22-3"><a href="company.html#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="company.html#cb22-4" tabindex="-1"></a>C_SHARES <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/C.SHARES.xlsx&quot;</span>)</span>
+<span id="cb22-5"><a href="company.html#cb22-5" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="company.html#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="company.html#cb22-7" tabindex="-1"></a>C_SHARES <span class="ot">&lt;-</span> C_SHARES <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="company.html#cb22-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="company.html#cb22-9" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>))  </span>
+<span id="cb22-10"><a href="company.html#cb22-10" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="company.html#cb22-11" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="company.html#cb22-12" tabindex="-1"></a>C_SHARES <span class="sc">%&gt;%</span></span>
+<span id="cb22-13"><a href="company.html#cb22-13" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb22-14"><a href="company.html#cb22-14" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">13</span>) <span class="sc">%&gt;%</span>          </span>
+<span id="cb22-15"><a href="company.html#cb22-15" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(<span class="st">`</span><span class="at">Company Name</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>), <span class="at">y =</span> <span class="st">`</span><span class="at">2023</span><span class="st">`</span>, <span class="at">fill =</span> <span class="st">`</span><span class="at">Company Name</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="company.html#cb22-16" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span>  </span>
+<span id="cb22-17"><a href="company.html#cb22-17" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>, <span class="dv">1</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span>  </span>
+<span id="cb22-18"><a href="company.html#cb22-18" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-19"><a href="company.html#cb22-19" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks market shares in 2023 (Top 10)&quot;</span>, </span>
+<span id="cb22-20"><a href="company.html#cb22-20" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Company Name&quot;</span>, </span>
+<span id="cb22-21"><a href="company.html#cb22-21" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Share (%)&quot;</span>, </span>
+<span id="cb22-22"><a href="company.html#cb22-22" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span></span>
+<span id="cb22-23"><a href="company.html#cb22-23" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb22-24"><a href="company.html#cb22-24" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb22-25"><a href="company.html#cb22-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb22-26"><a href="company.html#cb22-26" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="company.html#cb23-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb23-2"><a href="company.html#cb23-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb23-3"><a href="company.html#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="company.html#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="company.html#cb23-5" tabindex="-1"></a>C_SHARES <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/C.SHARES.xlsx&quot;</span>)</span>
+<span id="cb23-6"><a href="company.html#cb23-6" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="company.html#cb23-7" tabindex="-1"></a>gullon_data <span class="ot">&lt;-</span> C_SHARES <span class="sc">|&gt;</span> </span>
+<span id="cb23-8"><a href="company.html#cb23-8" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Company Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Galletas Gullón SA&quot;</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb23-9"><a href="company.html#cb23-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2015</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>, </span>
+<span id="cb23-10"><a href="company.html#cb23-10" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, </span>
+<span id="cb23-11"><a href="company.html#cb23-11" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;Share&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-12"><a href="company.html#cb23-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Share =</span> <span class="fu">as.numeric</span>(Share))</span>
+<span id="cb23-13"><a href="company.html#cb23-13" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="company.html#cb23-14" tabindex="-1"></a>gullon_data <span class="ot">&lt;-</span> gullon_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Share))</span>
+<span id="cb23-15"><a href="company.html#cb23-15" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="company.html#cb23-16" tabindex="-1"></a><span class="fu">ggplot</span>(gullon_data, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Share, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb23-17"><a href="company.html#cb23-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>               </span>
+<span id="cb23-18"><a href="company.html#cb23-18" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span>   </span>
+<span id="cb23-19"><a href="company.html#cb23-19" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb23-20"><a href="company.html#cb23-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Market share of Galletas Gullón SA (2015-2023)&quot;</span>, </span>
+<span id="cb23-21"><a href="company.html#cb23-21" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, </span>
+<span id="cb23-22"><a href="company.html#cb23-22" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Share (%)&quot;</span>,</span>
+<span id="cb23-23"><a href="company.html#cb23-23" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb23-24"><a href="company.html#cb23-24" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb23-25"><a href="company.html#cb23-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb23-26"><a href="company.html#cb23-26" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="company.html#cb24-1" tabindex="-1"></a>turnover_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-2"><a href="company.html#cb24-2" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>),</span>
+<span id="cb24-3"><a href="company.html#cb24-3" tabindex="-1"></a>  <span class="at">Turnover =</span> <span class="fu">c</span>(<span class="dv">360</span>, <span class="dv">387</span>, <span class="dv">408</span>, <span class="dv">419</span>, <span class="dv">531</span>, <span class="dv">630</span>)</span>
+<span id="cb24-4"><a href="company.html#cb24-4" tabindex="-1"></a>)</span>
+<span id="cb24-5"><a href="company.html#cb24-5" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="company.html#cb24-6" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="company.html#cb24-7" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">range</span>(turnover_data<span class="sc">$</span>Year)</span>
+<span id="cb24-8"><a href="company.html#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="company.html#cb24-9" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="company.html#cb24-10" tabindex="-1"></a><span class="fu">ggplot</span>(turnover_data, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Turnover, <span class="at">label =</span> Turnover)) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="company.html#cb24-11" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">fill =</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Set2&quot;</span>)[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="company.html#cb24-12" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="company.html#cb24-13" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(time_range[<span class="dv">1</span>], time_range[<span class="dv">2</span>], <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="company.html#cb24-14" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb24-15"><a href="company.html#cb24-15" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-16"><a href="company.html#cb24-16" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Turnover by Year&quot;</span>,</span>
+<span id="cb24-17"><a href="company.html#cb24-17" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Galletas Gullòn SA&quot;</span>,</span>
+<span id="cb24-18"><a href="company.html#cb24-18" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Turnover (million euros)&quot;</span>,</span>
+<span id="cb24-19"><a href="company.html#cb24-19" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb24-20"><a href="company.html#cb24-20" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Galletas Gullòn SA Sustainability report 2023&quot;</span></span>
+<span id="cb24-21"><a href="company.html#cb24-21" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb24-22"><a href="company.html#cb24-22" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb24-23"><a href="company.html#cb24-23" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, </span>
+<span id="cb24-24"><a href="company.html#cb24-24" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>), </span>
+<span id="cb24-25"><a href="company.html#cb24-25" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb24-26"><a href="company.html#cb24-26" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb24-27"><a href="company.html#cb24-27" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb24-28"><a href="company.html#cb24-28" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Galletas Gullón SA has solidified its position as a significant player in the Sweet Biscuits, Snack Bars, and Fruit Snacks market over the last 10 years. It has managed to grow its market share and brand recognition, establishing itself as a strong competitor among larger companies. However, while Gullón’s market share rose considerably between 2018 and 2021, it has since leveled off, indicating that the company may be reaching a maximum in terms of market expansion. This suggests that while Gullón has effectively captured a strong and loyal consumer base, further growth may require some adjustments in terms of strategy and innovation.</p>
+</div>
+<div id="companys-performance" class="section level2 unnumbered hasAnchor">
+<h2>Company’s performance<a href="company.html#companys-performance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The company’s financial performance, on the other hand, has seen impressive increases in revenue in recent years, suggesting that Gullón is well-aligned with consumer trends and demand within its segment. This could be mainly thanks to its effective product positioning, with focus on quality and health-oriented snacks, following the healthy trends of the latest years. The rise in revenue also underlines successful expansion efforts, whether through geographic reach, diversified product lines, or tapping into trends like healthy snacking or convenience foods.</p>
+<p>Going forward, Galletas Gullón has opportunities to build on this growth. Expanding its product range to include items that appeal to current consumer preferences, like plant-based, low-sugar, or sustainably sourced snacks, could help differentiate it from competitors and reach new audiences. Additionally, as larger companies continue to dominate market share, Gullón might benefit from targeting specific niches, investing in marketing that strengthens its brand values, or even pursuing partnerships to widen its reach. Operationally, maintaining cost efficiency while scaling production will be essential for keeping margins healthy as demand grows.</p>
+<p>In summary, while Galletas Gullón SA has successfully established itself within a competitive market, future growth may depend on a balanced approach that combines product innovation, strategic marketing, and efficiency improvements. This approach will be crucial for solidifying its market position and capturing further opportunities in an increasingly health-conscious and quality-driven consumer landscape.</p>
+</div>
+<div id="swot-analysis" class="section level2 unnumbered hasAnchor">
+<h2>SWOT analysis<a href="company.html#swot-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To gain a deeper understanding of the company’s performance, conducting a SWOT analysis can be highly valuable. This strategic planning tool helps assess the Strengths, Weaknesses, Opportunities, and Threats associated with a business, project, or organization, providing insights that inform decision-making and drive long-term success.</p>
+<p><strong>Strengths</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Brand</strong>: Gullón’s long-standing presence in the market (over 130 years) has established it as a trustworthy brand with a solid reputation.</li>
+<li><strong>Health-focused products</strong>: the company focuses on healthy products, like sugar-free and high-fiber biscuits, which align well with the growing demand for healthier snacks.</li>
+<li><strong>Innovation</strong>: Gullón has invested significantly in research and development of new products, particularly those related to dietary needs, such as gluten-free and high-protein biscuits.</li>
+<li><strong>Production facilities</strong>: the company possesses modern facilities that ensure high-quality production and efficiency.</li>
+<li><strong>Export</strong>: Gullón has a strong presence in international markets, with its products being exported to over 120 countries, and hence a reduced dependence on the Spanish market.</li>
+</ol>
+<p><strong>Weaknesses</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Diversification</strong>: the main focus of the company is on the biscuits market. This limits product diversification and can expose Gullon to market fluctuations within the biscuit and snack industry.</li>
+<li><strong>High competition in the national market</strong>: in Spain, Gullón faces strong competition from other established brands, both local (such as Adam Foods) and international (Nestlé, Mondelez).</li>
+<li><strong>Limited brand recognition in some international markets</strong>: brand recognition in non-European markets could be improved.</li>
+<li><strong>Costs and prices</strong>: health-focused products can require higher production costs. This may result in higher prices and in a reduction of price-sensitive customers.
+Opportunities</li>
+</ol>
+<p><strong>Opportunities</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Health Trends</strong>: the increasing global demand for healthy, low-sugar, and allergen-free foods could be pursued by sticking to this line of production and innovation.</li>
+<li><strong>New Snack Categories</strong>: Gullón could explore new product lines in other snack categories, such as granola bars and rice cakes, to reduce its reliance on biscuits.</li>
+<li><strong>E-commerce</strong>: the company could focus on the creation of an online shop to potentially increase its digital sales channels both domestically and internationally.</li>
+<li><strong>Emerging Economies</strong>: expanding business into emerging markets where the demand for Western snacks and biscuits is rising, such as in Asia, Latin America, and Africa could be</li>
+</ol>
+<p><strong>Threats</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Competition from Global Brands</strong>: multinational companies, like Mondelez, Nestlé, and Kellogg’s, have substantial market share and resources, making the competition fierce, especially in international markets.</li>
+<li><strong>Fluctuating Raw Material Prices</strong>: the cost of key ingredients like wheat, sugar, and chocolate can vary significantly, impacting profitability, especially in periods of strong inflation.</li>
+<li><strong>Economic Uncertainty</strong>: macroeconomic downturns could lead to a reduction in consumer spending, particularly high quality and health-focused products.</li>
+<li><strong>Regulations and Requirements</strong>: increasing regulations related to food labeling, nutrition claims, and product formulations could require higher production costs.</li>
+<li><strong>Environmental Pressures</strong>: issues related to water usage, waste management, and carbon footprint could be challenging if the company is unable to meet sustainability expectations.</li>
+<li><strong>Greenwashing</strong>: moving towards eco-friendly and biodegradable policies like packaging or production lines can attract environmentally conscious consumers. Anyway, any form of greenwashing should be avoided.</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="supply.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-citations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"code_folding": "hide"
+});
+});
+</script>
+
+</body>
+
+</html>

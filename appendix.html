@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Appendix | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Appendix | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Appendix | SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="conclusions.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script>
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.7
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.7
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+/* jshint latedef: false */
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
+                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.7'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $this.data()
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+</script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.js');
+  rCodeBlocks.each(function() {
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+    });
+  });
+
+}
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.7
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.7'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+    })
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger($.Event('shown.bs.dropdown', relatedTarget))
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('.dropdown-menu' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+}(jQuery);
+</script>
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+.row { display: flex; }
+.collapse { display: none; }
+.in { display: block; }
+.pull-right > .dropdown-menu { right: 0; left: auto; }
+.open > .dropdown-menu { display: block; }
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+#code-button-container { position: fixed !important; top: 10px; right: 10px; z-index: 200; }
+</style>
+<script>
+$(document).ready(function () {
+window.initializeCodeFolding(false);
+});
+</script>
+<script>
+document.write('<div class="btn-group pull-right" style="position: absolute; top: 10px; right: 10px; z-index: 200">
+  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast="">
+    <span>Code</span> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" style="min-width: 50px;">
+    <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+    <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+  </ul>
+</div>');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<div class="book-logo">
+  <img src="logounitrento.jpg" alt="Book Logo" style="width: 250px; margin-bottom: 5px;">
+</div>
+<script src="custom.js"></script>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html"><i class="fa fa-check"></i>Scenario and Market</a>
+<ul>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#gdp-per-capita"><i class="fa fa-check"></i>GDP per Capita</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#unemployment"><i class="fa fa-check"></i>Unemployment</a></li>
+<li class="chapter" data-level="" data-path="scenario-and-market.html"><a href="scenario-and-market.html#consumption"><i class="fa fa-check"></i>Consumption</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html"><i class="fa fa-check"></i>Demand</a>
+<ul>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#population-gdp-and-consumption-per-capita"><i class="fa fa-check"></i>Population, GDP and Consumption per Capita</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#share-of-revenues"><i class="fa fa-check"></i>Share of Revenues</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#average-price-and-sweet-snacks-quantity"><i class="fa fa-check"></i>Average Price and Sweet Snacks Quantity</a></li>
+<li class="chapter" data-level="" data-path="demand.html"><a href="demand.html#vegetarians-and-vegans"><i class="fa fa-check"></i>Vegetarians and vegans</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html"><i class="fa fa-check"></i>Supply</a>
+<ul>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#active-enterprises-average-price"><i class="fa fa-check"></i>Active enterprises, Average Price</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#number-of-employees"><i class="fa fa-check"></i>Number of employees</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#investment-in-machinery-and-equipment-added-value"><i class="fa fa-check"></i>Investment in machinery and equipment / Added value</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#cost-of-labour-productivity"><i class="fa fa-check"></i>Cost of Labour / Productivity</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#c4-index"><i class="fa fa-check"></i>C4 Index</a></li>
+<li class="chapter" data-level="" data-path="supply.html"><a href="supply.html#modern-distribution-channels"><i class="fa fa-check"></i>Modern Distribution Channels</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html"><i class="fa fa-check"></i>Company</a>
+<ul>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#a-brief-history"><i class="fa fa-check"></i>A brief history</a></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#companys-performance"><i class="fa fa-check"></i>Company’s performance</a></li>
+<li class="chapter" data-level="" data-path="company.html"><a href="company.html#swot-analysis"><i class="fa fa-check"></i>SWOT analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusions.html"><a href="conclusions.html"><i class="fa fa-check"></i>Conclusions</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#sweet-snacks-consumption-volumes"><i class="fa fa-check"></i>Sweet snacks consumption volumes</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#sweet-snacks-values"><i class="fa fa-check"></i>Sweet Snacks Values</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#values-cross-country"><i class="fa fa-check"></i>Values Cross Country</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#average-retail-price"><i class="fa fa-check"></i>Average Retail Price</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#employees-per-company"><i class="fa fa-check"></i>Employees per Company</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#segments"><i class="fa fa-check"></i>Segments</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html#subsegments"><i class="fa fa-check"></i>Subsegments</a></li>
+</ul></li>
+<li class="divider"></li>
+<div class="custom-legend">
+  <p><strong>Professor:</strong> Matteo Ploner</p>
+  <p><strong>Tutor:</strong> Vittorio Guida</p>
+  <p><strong>Group Members:</strong></p>
+  <ul>
+    <li>Matteo Paganessi</li>
+    <li>Andrii Solomka</li>
+    <li>Maeve Pizzolon</li>
+    <li>Fernando Nabal Claverie</li>
+    <li>Alex Rodriguez Mari</li>
+  </ul>
+</div>
+<li><a href="https://github.com/rstudio/bookdown" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SPAIN: Sweet Biscuits, Snack Bars and Fruit Snacks</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix" class="section level1 unnumbered hasAnchor">
+<h1>Appendix<a href="appendix.html#appendix" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="sweet-snacks-consumption-volumes" class="section level2 unnumbered hasAnchor">
+<h2>Sweet snacks consumption volumes<a href="appendix.html#sweet-snacks-consumption-volumes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="appendix.html#cb25-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb25-2"><a href="appendix.html#cb25-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-3"><a href="appendix.html#cb25-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb25-4"><a href="appendix.html#cb25-4" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="appendix.html#cb25-5" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/DFR.xlsx&quot;</span>)</span>
+<span id="cb25-6"><a href="appendix.html#cb25-6" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="appendix.html#cb25-7" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="appendix.html#cb25-8" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> DFR <span class="sc">|&gt;</span> </span>
+<span id="cb25-9"><a href="appendix.html#cb25-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Volume&quot;</span>, <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-10"><a href="appendix.html#cb25-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Volume =</span> <span class="fu">as.numeric</span>(Volume)) <span class="sc">|&gt;</span></span>
+<span id="cb25-11"><a href="appendix.html#cb25-11" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Volume))  <span class="co"># Remove rows with NA Volume</span></span>
+<span id="cb25-12"><a href="appendix.html#cb25-12" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="appendix.html#cb25-13" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)  <span class="co"># Define the time range</span></span>
+<span id="cb25-14"><a href="appendix.html#cb25-14" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="appendix.html#cb25-15" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb25-16"><a href="appendix.html#cb25-16" tabindex="-1"></a>DFR <span class="sc">|&gt;</span> </span>
+<span id="cb25-17"><a href="appendix.html#cb25-17" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb25-18"><a href="appendix.html#cb25-18" tabindex="-1"></a>           Geography <span class="sc">==</span> <span class="st">&quot;Spain&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb25-19"><a href="appendix.html#cb25-19" tabindex="-1"></a>           <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Total Volume&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb25-20"><a href="appendix.html#cb25-20" tabindex="-1"></a>           Year <span class="sc">&lt;=</span> time_range[<span class="dv">2</span>] <span class="sc">&amp;</span> </span>
+<span id="cb25-21"><a href="appendix.html#cb25-21" tabindex="-1"></a>           Year <span class="sc">&gt;=</span> time_range[<span class="dv">1</span>]) <span class="sc">|&gt;</span></span>
+<span id="cb25-22"><a href="appendix.html#cb25-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Volume, <span class="at">label =</span> <span class="fu">round</span>(Volume, <span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb25-23"><a href="appendix.html#cb25-23" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> .<span class="dv">8</span>, <span class="at">fill =</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Set2&quot;</span>)[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb25-24"><a href="appendix.html#cb25-24" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb25-25"><a href="appendix.html#cb25-25" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb25-26"><a href="appendix.html#cb25-26" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>], <span class="at">minor_breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb25-27"><a href="appendix.html#cb25-27" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb25-28"><a href="appendix.html#cb25-28" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-29"><a href="appendix.html#cb25-29" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks: Volumes&quot;</span>,</span>
+<span id="cb25-30"><a href="appendix.html#cb25-30" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Spain&quot;</span>,</span>
+<span id="cb25-31"><a href="appendix.html#cb25-31" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Tonnes (&#39;000)&quot;</span>,</span>
+<span id="cb25-32"><a href="appendix.html#cb25-32" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb25-33"><a href="appendix.html#cb25-33" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;Volume&quot;</span>,</span>
+<span id="cb25-34"><a href="appendix.html#cb25-34" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span></span>
+<span id="cb25-35"><a href="appendix.html#cb25-35" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb25-36"><a href="appendix.html#cb25-36" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb25-37"><a href="appendix.html#cb25-37" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb25-38"><a href="appendix.html#cb25-38" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb25-39"><a href="appendix.html#cb25-39" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-40"><a href="appendix.html#cb25-40" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb25-41"><a href="appendix.html#cb25-41" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb25-42"><a href="appendix.html#cb25-42" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="sweet-snacks-values" class="section level2 unnumbered hasAnchor">
+<h2>Sweet Snacks Values<a href="appendix.html#sweet-snacks-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="appendix.html#cb26-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb26-2"><a href="appendix.html#cb26-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb26-3"><a href="appendix.html#cb26-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb26-4"><a href="appendix.html#cb26-4" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="appendix.html#cb26-5" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb26-6"><a href="appendix.html#cb26-6" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/DFR.xlsx&quot;</span>)</span>
+<span id="cb26-7"><a href="appendix.html#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="appendix.html#cb26-8" tabindex="-1"></a><span class="co"># Define time range</span></span>
+<span id="cb26-9"><a href="appendix.html#cb26-9" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)</span>
+<span id="cb26-10"><a href="appendix.html#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="appendix.html#cb26-11" tabindex="-1"></a><span class="co"># Process and visualize data</span></span>
+<span id="cb26-12"><a href="appendix.html#cb26-12" tabindex="-1"></a>DFR <span class="sc">|&gt;</span> </span>
+<span id="cb26-13"><a href="appendix.html#cb26-13" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>, <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-14"><a href="appendix.html#cb26-14" tabindex="-1"></a>  <span class="co"># Convert `Value` to numeric, coercing non-numeric entries to NA</span></span>
+<span id="cb26-15"><a href="appendix.html#cb26-15" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Value =</span> <span class="fu">as.numeric</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb26-16"><a href="appendix.html#cb26-16" tabindex="-1"></a>  <span class="co"># Filter out rows with NA in `Value`</span></span>
+<span id="cb26-17"><a href="appendix.html#cb26-17" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb26-18"><a href="appendix.html#cb26-18" tabindex="-1"></a>  <span class="co"># Filter the data for the specified conditions</span></span>
+<span id="cb26-19"><a href="appendix.html#cb26-19" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb26-20"><a href="appendix.html#cb26-20" tabindex="-1"></a>           Geography <span class="sc">==</span> <span class="st">&quot;Spain&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb26-21"><a href="appendix.html#cb26-21" tabindex="-1"></a>           <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Value RSP&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb26-22"><a href="appendix.html#cb26-22" tabindex="-1"></a>           Year <span class="sc">&lt;=</span> time_range[<span class="dv">2</span>] <span class="sc">&amp;</span> </span>
+<span id="cb26-23"><a href="appendix.html#cb26-23" tabindex="-1"></a>           Year <span class="sc">&gt;=</span> time_range[<span class="dv">1</span>]) <span class="sc">|&gt;</span></span>
+<span id="cb26-24"><a href="appendix.html#cb26-24" tabindex="-1"></a>  <span class="co"># Create the plot</span></span>
+<span id="cb26-25"><a href="appendix.html#cb26-25" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Value, <span class="at">label =</span> <span class="fu">round</span>(Value, <span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb26-26"><a href="appendix.html#cb26-26" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> .<span class="dv">8</span>, <span class="at">fill =</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Set2&quot;</span>)[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb26-27"><a href="appendix.html#cb26-27" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb26-28"><a href="appendix.html#cb26-28" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-29"><a href="appendix.html#cb26-29" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>], <span class="at">minor_breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb26-30"><a href="appendix.html#cb26-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb26-31"><a href="appendix.html#cb26-31" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-32"><a href="appendix.html#cb26-32" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks: Values&quot;</span>,</span>
+<span id="cb26-33"><a href="appendix.html#cb26-33" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Spain&quot;</span>,</span>
+<span id="cb26-34"><a href="appendix.html#cb26-34" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Euro (Mil.)&quot;</span>,</span>
+<span id="cb26-35"><a href="appendix.html#cb26-35" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb26-36"><a href="appendix.html#cb26-36" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;Value&quot;</span>,</span>
+<span id="cb26-37"><a href="appendix.html#cb26-37" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span></span>
+<span id="cb26-38"><a href="appendix.html#cb26-38" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb26-39"><a href="appendix.html#cb26-39" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb26-40"><a href="appendix.html#cb26-40" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb26-41"><a href="appendix.html#cb26-41" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb26-42"><a href="appendix.html#cb26-42" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb26-43"><a href="appendix.html#cb26-43" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb26-44"><a href="appendix.html#cb26-44" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb26-45"><a href="appendix.html#cb26-45" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="values-cross-country" class="section level2 unnumbered hasAnchor">
+<h2>Values Cross Country<a href="appendix.html#values-cross-country" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="appendix.html#cb27-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb27-2"><a href="appendix.html#cb27-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb27-3"><a href="appendix.html#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="appendix.html#cb27-4" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb27-5"><a href="appendix.html#cb27-5" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/DFR.xlsx&quot;</span>)</span>
+<span id="cb27-6"><a href="appendix.html#cb27-6" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="appendix.html#cb27-7" tabindex="-1"></a><span class="co"># Define selected countries and time range</span></span>
+<span id="cb27-8"><a href="appendix.html#cb27-8" tabindex="-1"></a>countries_sel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Germany&quot;</span>)</span>
+<span id="cb27-9"><a href="appendix.html#cb27-9" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)</span>
+<span id="cb27-10"><a href="appendix.html#cb27-10" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="appendix.html#cb27-11" tabindex="-1"></a><span class="co"># Process and plot data</span></span>
+<span id="cb27-12"><a href="appendix.html#cb27-12" tabindex="-1"></a>DFR <span class="sc">|&gt;</span> </span>
+<span id="cb27-13"><a href="appendix.html#cb27-13" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>, <span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-14"><a href="appendix.html#cb27-14" tabindex="-1"></a>  <span class="co"># Convert Value to numeric and handle non-numeric entries</span></span>
+<span id="cb27-15"><a href="appendix.html#cb27-15" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Value =</span> <span class="fu">as.numeric</span>(Value)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-16"><a href="appendix.html#cb27-16" tabindex="-1"></a>  <span class="co"># Remove rows with NA in Value</span></span>
+<span id="cb27-17"><a href="appendix.html#cb27-17" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-18"><a href="appendix.html#cb27-18" tabindex="-1"></a>  <span class="co"># Filter for the specified conditions</span></span>
+<span id="cb27-19"><a href="appendix.html#cb27-19" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb27-20"><a href="appendix.html#cb27-20" tabindex="-1"></a>           Geography <span class="sc">%in%</span> countries_sel <span class="sc">&amp;</span> </span>
+<span id="cb27-21"><a href="appendix.html#cb27-21" tabindex="-1"></a>           <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Value RSP&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb27-22"><a href="appendix.html#cb27-22" tabindex="-1"></a>           Year <span class="sc">&lt;=</span> time_range[<span class="dv">2</span>] <span class="sc">&amp;</span> </span>
+<span id="cb27-23"><a href="appendix.html#cb27-23" tabindex="-1"></a>           Year <span class="sc">&gt;=</span> time_range[<span class="dv">1</span>]) <span class="sc">|&gt;</span> </span>
+<span id="cb27-24"><a href="appendix.html#cb27-24" tabindex="-1"></a>  <span class="co"># Group by Geography and calculate the fixed index</span></span>
+<span id="cb27-25"><a href="appendix.html#cb27-25" tabindex="-1"></a>  <span class="fu">group_by</span>(Geography) <span class="sc">|&gt;</span> </span>
+<span id="cb27-26"><a href="appendix.html#cb27-26" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Fixed =</span> (Value <span class="sc">/</span> Value[Year <span class="sc">==</span> time_range[<span class="dv">1</span>]]) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-27"><a href="appendix.html#cb27-27" tabindex="-1"></a>  <span class="co"># Plot</span></span>
+<span id="cb27-28"><a href="appendix.html#cb27-28" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Fixed, <span class="at">label =</span> <span class="fu">round</span>(Fixed, <span class="dv">1</span>), <span class="at">fill =</span> Geography, <span class="at">color =</span> Geography)) <span class="sc">+</span></span>
+<span id="cb27-29"><a href="appendix.html#cb27-29" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">100</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb27-30"><a href="appendix.html#cb27-30" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> .<span class="dv">6</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb27-31"><a href="appendix.html#cb27-31" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb27-32"><a href="appendix.html#cb27-32" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb27-33"><a href="appendix.html#cb27-33" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb27-34"><a href="appendix.html#cb27-34" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>], <span class="at">minor_breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>]) <span class="sc">+</span> </span>
+<span id="cb27-35"><a href="appendix.html#cb27-35" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb27-36"><a href="appendix.html#cb27-36" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-37"><a href="appendix.html#cb27-37" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks: Values&quot;</span>,</span>
+<span id="cb27-38"><a href="appendix.html#cb27-38" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(time_range[<span class="dv">1</span>], <span class="st">&quot;-&quot;</span>, time_range[<span class="dv">2</span>], <span class="st">&quot;, Index (&quot;</span>, time_range[<span class="dv">1</span>], <span class="st">&quot;=100)&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb27-39"><a href="appendix.html#cb27-39" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Index&quot;</span>,</span>
+<span id="cb27-40"><a href="appendix.html#cb27-40" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb27-41"><a href="appendix.html#cb27-41" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span>,</span>
+<span id="cb27-42"><a href="appendix.html#cb27-42" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span></span>
+<span id="cb27-43"><a href="appendix.html#cb27-43" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb27-44"><a href="appendix.html#cb27-44" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb27-45"><a href="appendix.html#cb27-45" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb27-46"><a href="appendix.html#cb27-46" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb27-47"><a href="appendix.html#cb27-47" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb27-48"><a href="appendix.html#cb27-48" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb27-49"><a href="appendix.html#cb27-49" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-50"><a href="appendix.html#cb27-50" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+</div>
+<div id="average-retail-price" class="section level2 unnumbered hasAnchor">
+<h2>Average Retail Price<a href="appendix.html#average-retail-price" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="appendix.html#cb28-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb28-2"><a href="appendix.html#cb28-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb28-3"><a href="appendix.html#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="appendix.html#cb28-4" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb28-5"><a href="appendix.html#cb28-5" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/DFR.xlsx&quot;</span>)</span>
+<span id="cb28-6"><a href="appendix.html#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="appendix.html#cb28-7" tabindex="-1"></a><span class="co"># Define selected countries and time range</span></span>
+<span id="cb28-8"><a href="appendix.html#cb28-8" tabindex="-1"></a>countries_sel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Germany&quot;</span>)</span>
+<span id="cb28-9"><a href="appendix.html#cb28-9" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)</span>
+<span id="cb28-10"><a href="appendix.html#cb28-10" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="appendix.html#cb28-11" tabindex="-1"></a><span class="co"># Join Value and Volume data</span></span>
+<span id="cb28-12"><a href="appendix.html#cb28-12" tabindex="-1"></a>prices <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
+<span id="cb28-13"><a href="appendix.html#cb28-13" tabindex="-1"></a>  <span class="co"># Retail Value RSP</span></span>
+<span id="cb28-14"><a href="appendix.html#cb28-14" tabindex="-1"></a>  DFR <span class="sc">|&gt;</span> </span>
+<span id="cb28-15"><a href="appendix.html#cb28-15" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>, <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-16"><a href="appendix.html#cb28-16" tabindex="-1"></a>    <span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb28-17"><a href="appendix.html#cb28-17" tabindex="-1"></a>           Geography <span class="sc">%in%</span> countries_sel <span class="sc">&amp;</span> </span>
+<span id="cb28-18"><a href="appendix.html#cb28-18" tabindex="-1"></a>           <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Value RSP&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb28-19"><a href="appendix.html#cb28-19" tabindex="-1"></a>           Year <span class="sc">&lt;=</span> time_range[<span class="dv">2</span>] <span class="sc">&amp;</span> </span>
+<span id="cb28-20"><a href="appendix.html#cb28-20" tabindex="-1"></a>           Year <span class="sc">&gt;=</span> time_range[<span class="dv">1</span>]),</span>
+<span id="cb28-21"><a href="appendix.html#cb28-21" tabindex="-1"></a>  <span class="co"># Retail Volume</span></span>
+<span id="cb28-22"><a href="appendix.html#cb28-22" tabindex="-1"></a>  DFR <span class="sc">|&gt;</span> </span>
+<span id="cb28-23"><a href="appendix.html#cb28-23" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Volume&quot;</span>, <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-24"><a href="appendix.html#cb28-24" tabindex="-1"></a>    <span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">&quot;Sweet Biscuits, Snack Bars and Fruit Snacks&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb28-25"><a href="appendix.html#cb28-25" tabindex="-1"></a>           Geography <span class="sc">%in%</span> countries_sel <span class="sc">&amp;</span> </span>
+<span id="cb28-26"><a href="appendix.html#cb28-26" tabindex="-1"></a>           <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Volume&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb28-27"><a href="appendix.html#cb28-27" tabindex="-1"></a>           Year <span class="sc">&lt;=</span> time_range[<span class="dv">2</span>] <span class="sc">&amp;</span> </span>
+<span id="cb28-28"><a href="appendix.html#cb28-28" tabindex="-1"></a>           Year <span class="sc">&gt;=</span> time_range[<span class="dv">1</span>]),</span>
+<span id="cb28-29"><a href="appendix.html#cb28-29" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;Geography&quot;</span>, <span class="st">&quot;Year&quot;</span>)</span>
+<span id="cb28-30"><a href="appendix.html#cb28-30" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-31"><a href="appendix.html#cb28-31" tabindex="-1"></a>  <span class="co"># Select relevant columns and convert Value and Volume to numeric</span></span>
+<span id="cb28-32"><a href="appendix.html#cb28-32" tabindex="-1"></a>  <span class="fu">select</span>(Geography, Year, Value, Volume) <span class="sc">|&gt;</span> </span>
+<span id="cb28-33"><a href="appendix.html#cb28-33" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-34"><a href="appendix.html#cb28-34" tabindex="-1"></a>    <span class="at">Value =</span> <span class="fu">as.numeric</span>(Value), </span>
+<span id="cb28-35"><a href="appendix.html#cb28-35" tabindex="-1"></a>    <span class="at">Volume =</span> <span class="fu">as.numeric</span>(Volume)</span>
+<span id="cb28-36"><a href="appendix.html#cb28-36" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb28-37"><a href="appendix.html#cb28-37" tabindex="-1"></a>  <span class="co"># Remove rows with NA in Value or Volume</span></span>
+<span id="cb28-38"><a href="appendix.html#cb28-38" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Volume)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-39"><a href="appendix.html#cb28-39" tabindex="-1"></a>  <span class="co"># Calculate Average Price</span></span>
+<span id="cb28-40"><a href="appendix.html#cb28-40" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Avg_Price =</span> <span class="fu">round</span>(Value <span class="sc">/</span> Volume, <span class="dv">3</span>))</span>
+<span id="cb28-41"><a href="appendix.html#cb28-41" tabindex="-1"></a></span>
+<span id="cb28-42"><a href="appendix.html#cb28-42" tabindex="-1"></a><span class="co"># Calculate Fixed Index and Plot</span></span>
+<span id="cb28-43"><a href="appendix.html#cb28-43" tabindex="-1"></a>prices <span class="sc">|&gt;</span> </span>
+<span id="cb28-44"><a href="appendix.html#cb28-44" tabindex="-1"></a>  <span class="fu">group_by</span>(Geography) <span class="sc">|&gt;</span> </span>
+<span id="cb28-45"><a href="appendix.html#cb28-45" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Fixed =</span> (Avg_Price <span class="sc">/</span> Avg_Price[Year <span class="sc">==</span> time_range[<span class="dv">1</span>]]) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-46"><a href="appendix.html#cb28-46" tabindex="-1"></a>  <span class="fu">filter</span>(Geography <span class="sc">==</span> <span class="st">&quot;Spain&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-47"><a href="appendix.html#cb28-47" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Fixed, <span class="at">label =</span> <span class="fu">round</span>(Fixed, <span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb28-48"><a href="appendix.html#cb28-48" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">100</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-49"><a href="appendix.html#cb28-49" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> .<span class="dv">6</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Set2&quot;</span>)[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb28-50"><a href="appendix.html#cb28-50" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">color =</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Set2&quot;</span>)[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb28-51"><a href="appendix.html#cb28-51" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-52"><a href="appendix.html#cb28-52" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>], <span class="at">minor_breaks =</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb28-53"><a href="appendix.html#cb28-53" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb28-54"><a href="appendix.html#cb28-54" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-55"><a href="appendix.html#cb28-55" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks: Average Retail Price&quot;</span>,</span>
+<span id="cb28-56"><a href="appendix.html#cb28-56" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(time_range[<span class="dv">1</span>], <span class="st">&quot;-&quot;</span>, time_range[<span class="dv">2</span>], <span class="st">&quot;, Index (&quot;</span>, time_range[<span class="dv">1</span>], <span class="st">&quot;=100)&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb28-57"><a href="appendix.html#cb28-57" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Index&quot;</span>,</span>
+<span id="cb28-58"><a href="appendix.html#cb28-58" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb28-59"><a href="appendix.html#cb28-59" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Passport/Euromonitor&quot;</span></span>
+<span id="cb28-60"><a href="appendix.html#cb28-60" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-61"><a href="appendix.html#cb28-61" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb28-62"><a href="appendix.html#cb28-62" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb28-63"><a href="appendix.html#cb28-63" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-64"><a href="appendix.html#cb28-64" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb28-65"><a href="appendix.html#cb28-65" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-66"><a href="appendix.html#cb28-66" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb28-67"><a href="appendix.html#cb28-67" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+<div id="employees-per-company" class="section level2 unnumbered hasAnchor">
+<h2>Employees per Company<a href="appendix.html#employees-per-company" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="appendix.html#cb29-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb29-2"><a href="appendix.html#cb29-2" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb29-3"><a href="appendix.html#cb29-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb29-4"><a href="appendix.html#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="appendix.html#cb29-5" tabindex="-1"></a><span class="co"># Define the data frame based on the values from your table</span></span>
+<span id="cb29-6"><a href="appendix.html#cb29-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb29-7"><a href="appendix.html#cb29-7" tabindex="-1"></a>  <span class="at">Sector =</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;C10&quot;</span>, <span class="st">&quot;C107&quot;</span>, <span class="st">&quot;C1072&quot;</span>),</span>
+<span id="cb29-8"><a href="appendix.html#cb29-8" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2014</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">10.3</span>, <span class="fl">13.8</span>, <span class="fl">7.3</span>, <span class="fl">17.8</span>),</span>
+<span id="cb29-9"><a href="appendix.html#cb29-9" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2015</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">10.6</span>, <span class="fl">14.2</span>, <span class="fl">8.0</span>, <span class="fl">27.0</span>),</span>
+<span id="cb29-10"><a href="appendix.html#cb29-10" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2016</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">11.1</span>, <span class="fl">15.0</span>, <span class="fl">8.4</span>, <span class="fl">28.9</span>),</span>
+<span id="cb29-11"><a href="appendix.html#cb29-11" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2017</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">11.4</span>, <span class="fl">15.2</span>, <span class="fl">8.5</span>, <span class="fl">28.6</span>),</span>
+<span id="cb29-12"><a href="appendix.html#cb29-12" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">11.7</span>, <span class="fl">15.5</span>, <span class="fl">8.4</span>, <span class="fl">26.9</span>),</span>
+<span id="cb29-13"><a href="appendix.html#cb29-13" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2019</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">16.0</span>, <span class="fl">8.2</span>, <span class="fl">26.8</span>),</span>
+<span id="cb29-14"><a href="appendix.html#cb29-14" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2020</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">16.3</span>, <span class="fl">8.3</span>, <span class="fl">26.2</span>),</span>
+<span id="cb29-15"><a href="appendix.html#cb29-15" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2021</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">12.0</span>, <span class="fl">16.0</span>, <span class="fl">8.0</span>, <span class="fl">24.0</span>),</span>
+<span id="cb29-16"><a href="appendix.html#cb29-16" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2022</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">12.0</span>, <span class="fl">17.0</span>, <span class="fl">9.0</span>, <span class="fl">24.0</span>)</span>
+<span id="cb29-17"><a href="appendix.html#cb29-17" tabindex="-1"></a>)</span>
+<span id="cb29-18"><a href="appendix.html#cb29-18" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="appendix.html#cb29-19" tabindex="-1"></a><span class="co"># Convert the data to long format for ggplot2 and remove &quot;X&quot; prefix for Year</span></span>
+<span id="cb29-20"><a href="appendix.html#cb29-20" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb29-21"><a href="appendix.html#cb29-21" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;X&quot;</span>), <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Employees&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-22"><a href="appendix.html#cb29-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, Year)))  <span class="co"># Remove &quot;X&quot; prefix for year</span></span>
+<span id="cb29-23"><a href="appendix.html#cb29-23" tabindex="-1"></a></span>
+<span id="cb29-24"><a href="appendix.html#cb29-24" tabindex="-1"></a><span class="co"># Rename the sectors for better labeling in the plot</span></span>
+<span id="cb29-25"><a href="appendix.html#cb29-25" tabindex="-1"></a>data_long<span class="sc">$</span>Sector <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_long<span class="sc">$</span>Sector, </span>
+<span id="cb29-26"><a href="appendix.html#cb29-26" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;C10&quot;</span>, <span class="st">&quot;C107&quot;</span>, <span class="st">&quot;C1072&quot;</span>),</span>
+<span id="cb29-27"><a href="appendix.html#cb29-27" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>))</span>
+<span id="cb29-28"><a href="appendix.html#cb29-28" tabindex="-1"></a></span>
+<span id="cb29-29"><a href="appendix.html#cb29-29" tabindex="-1"></a><span class="co"># Create the bar plot</span></span>
+<span id="cb29-30"><a href="appendix.html#cb29-30" tabindex="-1"></a><span class="fu">ggplot</span>(data_long, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Employees, <span class="at">fill =</span> Sector)) <span class="sc">+</span></span>
+<span id="cb29-31"><a href="appendix.html#cb29-31" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-32"><a href="appendix.html#cb29-32" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-33"><a href="appendix.html#cb29-33" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Employees per company&quot;</span>, </span>
+<span id="cb29-34"><a href="appendix.html#cb29-34" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Index (2014=100)&quot;</span>,</span>
+<span id="cb29-35"><a href="appendix.html#cb29-35" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb29-36"><a href="appendix.html#cb29-36" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Employees&quot;</span>,  </span>
+<span id="cb29-37"><a href="appendix.html#cb29-37" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Eurostat (sbs_na_ind_r2 V92100, sbs_ovw_act EMP_ENT_NR)&quot;</span></span>
+<span id="cb29-38"><a href="appendix.html#cb29-38" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-39"><a href="appendix.html#cb29-39" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#FBB4AE&quot;</span>, <span class="st">&quot;#B3CDE3&quot;</span>, <span class="st">&quot;#CCEBC5&quot;</span>, <span class="st">&quot;#DECBE4&quot;</span>)) <span class="sc">+</span>  <span class="co"># Custom pastel colors</span></span>
+<span id="cb29-40"><a href="appendix.html#cb29-40" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb29-41"><a href="appendix.html#cb29-41" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb29-42"><a href="appendix.html#cb29-42" tabindex="-1"></a>   <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb29-43"><a href="appendix.html#cb29-43" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb29-44"><a href="appendix.html#cb29-44" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb29-45"><a href="appendix.html#cb29-45" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb29-46"><a href="appendix.html#cb29-46" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb29-47"><a href="appendix.html#cb29-47" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb29-48"><a href="appendix.html#cb29-48" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-49"><a href="appendix.html#cb29-49" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2014</span>, <span class="dv">2022</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2022</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" width="672" />
+## Hours worked per Employee {.unnumbered}</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="appendix.html#cb30-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb30-2"><a href="appendix.html#cb30-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb30-3"><a href="appendix.html#cb30-3" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb30-4"><a href="appendix.html#cb30-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-5"><a href="appendix.html#cb30-5" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="appendix.html#cb30-6" tabindex="-1"></a><span class="co"># Define the data frame with numeric values</span></span>
+<span id="cb30-7"><a href="appendix.html#cb30-7" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-8"><a href="appendix.html#cb30-8" tabindex="-1"></a>  <span class="at">Sector =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>),</span>
+<span id="cb30-9"><a href="appendix.html#cb30-9" tabindex="-1"></a>  <span class="at">X2014 =</span> <span class="fu">c</span>(<span class="dv">2766894954</span>, <span class="dv">513987350</span>, <span class="dv">116232580</span>, <span class="dv">19982122</span>),</span>
+<span id="cb30-10"><a href="appendix.html#cb30-10" tabindex="-1"></a>  <span class="at">X2015 =</span> <span class="fu">c</span>(<span class="dv">2864272194</span>, <span class="dv">526314623</span>, <span class="dv">121161125</span>, <span class="dv">22470467</span>),</span>
+<span id="cb30-11"><a href="appendix.html#cb30-11" tabindex="-1"></a>  <span class="at">X2016 =</span> <span class="fu">c</span>(<span class="dv">2939282644</span>, <span class="dv">546624913</span>, <span class="dv">122534892</span>, <span class="dv">24352665</span>),</span>
+<span id="cb30-12"><a href="appendix.html#cb30-12" tabindex="-1"></a>  <span class="at">X2017 =</span> <span class="fu">c</span>(<span class="dv">3053113985</span>, <span class="dv">572559576</span>, <span class="dv">127695448</span>, <span class="dv">24461997</span>),</span>
+<span id="cb30-13"><a href="appendix.html#cb30-13" tabindex="-1"></a>  <span class="at">X2018 =</span> <span class="fu">c</span>(<span class="dv">3221144410</span>, <span class="dv">611677181</span>, <span class="dv">137020267</span>, <span class="dv">25780962</span>),</span>
+<span id="cb30-14"><a href="appendix.html#cb30-14" tabindex="-1"></a>  <span class="at">X2019 =</span> <span class="fu">c</span>(<span class="dv">3292048841</span>, <span class="dv">644350490</span>, <span class="dv">140249232</span>, <span class="dv">25607635</span>),</span>
+<span id="cb30-15"><a href="appendix.html#cb30-15" tabindex="-1"></a>  <span class="at">X2020 =</span> <span class="fu">c</span>(<span class="dv">3027884123</span>, <span class="dv">622086117</span>, <span class="dv">132787550</span>, <span class="dv">24604073</span>),</span>
+<span id="cb30-16"><a href="appendix.html#cb30-16" tabindex="-1"></a>  <span class="at">X2021 =</span> <span class="fu">c</span>(<span class="dv">3292431439</span>, <span class="dv">662829683</span>, <span class="dv">142132184</span>, <span class="dv">25563645</span>),</span>
+<span id="cb30-17"><a href="appendix.html#cb30-17" tabindex="-1"></a>  <span class="at">X2022 =</span> <span class="fu">c</span>(<span class="dv">3344290214</span>, <span class="dv">690974607</span>, <span class="dv">145767679</span>, <span class="dv">25470737</span>)</span>
+<span id="cb30-18"><a href="appendix.html#cb30-18" tabindex="-1"></a>)</span>
+<span id="cb30-19"><a href="appendix.html#cb30-19" tabindex="-1"></a></span>
+<span id="cb30-20"><a href="appendix.html#cb30-20" tabindex="-1"></a>data<span class="sc">$</span>Sector <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>Sector, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>))</span>
+<span id="cb30-21"><a href="appendix.html#cb30-21" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="appendix.html#cb30-22" tabindex="-1"></a><span class="co"># Calculate the index based on 2014 values</span></span>
+<span id="cb30-23"><a href="appendix.html#cb30-23" tabindex="-1"></a>data_indexed <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb30-24"><a href="appendix.html#cb30-24" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb30-25"><a href="appendix.html#cb30-25" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(X2014<span class="sc">:</span>X2022, <span class="sc">~</span> (.x <span class="sc">/</span> X2014) <span class="sc">*</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-26"><a href="appendix.html#cb30-26" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb30-27"><a href="appendix.html#cb30-27" tabindex="-1"></a></span>
+<span id="cb30-28"><a href="appendix.html#cb30-28" tabindex="-1"></a><span class="co"># Reshape the data to long format for plotting</span></span>
+<span id="cb30-29"><a href="appendix.html#cb30-29" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_indexed <span class="sc">%&gt;%</span></span>
+<span id="cb30-30"><a href="appendix.html#cb30-30" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;X&quot;</span>), <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Index&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-31"><a href="appendix.html#cb30-31" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, Year)))  <span class="co"># Remove &quot;X&quot; prefix for year</span></span>
+<span id="cb30-32"><a href="appendix.html#cb30-32" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="appendix.html#cb30-33" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="appendix.html#cb30-34" tabindex="-1"></a></span>
+<span id="cb30-35"><a href="appendix.html#cb30-35" tabindex="-1"></a><span class="fu">ggplot</span>(data_long, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Index, <span class="at">color =</span> Sector, <span class="at">group =</span> Sector)) <span class="sc">+</span></span>
+<span id="cb30-36"><a href="appendix.html#cb30-36" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb30-37"><a href="appendix.html#cb30-37" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">stroke =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb30-38"><a href="appendix.html#cb30-38" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">+</span></span>
+<span id="cb30-39"><a href="appendix.html#cb30-39" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#FFB3BA&quot;</span>, <span class="st">&quot;#FFDFBA&quot;</span>, <span class="st">&quot;#BAE1FF&quot;</span>, <span class="st">&quot;#B8E3B8&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb30-40"><a href="appendix.html#cb30-40" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Hours worked per employee&quot;</span>,</span>
+<span id="cb30-41"><a href="appendix.html#cb30-41" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Index (2014=100)&quot;</span>,</span>
+<span id="cb30-42"><a href="appendix.html#cb30-42" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb30-43"><a href="appendix.html#cb30-43" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Index&quot;</span>,</span>
+<span id="cb30-44"><a href="appendix.html#cb30-44" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Eurostat (sbs_na_ind_r2 V1615, sbs_ovw_act HW_NR)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-45"><a href="appendix.html#cb30-45" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-46"><a href="appendix.html#cb30-46" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb30-47"><a href="appendix.html#cb30-47" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb30-48"><a href="appendix.html#cb30-48" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" />
+## Average Cost of Personnel {.unnumbered}</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="appendix.html#cb31-1" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb31-2"><a href="appendix.html#cb31-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb31-3"><a href="appendix.html#cb31-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb31-4"><a href="appendix.html#cb31-4" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb31-5"><a href="appendix.html#cb31-5" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="appendix.html#cb31-6" tabindex="-1"></a><span class="co"># Create the data frames</span></span>
+<span id="cb31-7"><a href="appendix.html#cb31-7" tabindex="-1"></a>dataV16130 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-8"><a href="appendix.html#cb31-8" tabindex="-1"></a>  <span class="at">Sector =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>),</span>
+<span id="cb31-9"><a href="appendix.html#cb31-9" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2014</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1612089</span>, <span class="dv">292631</span>, <span class="dv">66616</span>, <span class="dv">14741</span>),</span>
+<span id="cb31-10"><a href="appendix.html#cb31-10" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2015</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1664901</span>, <span class="dv">300534</span>, <span class="dv">69393</span>, <span class="dv">15130</span>),</span>
+<span id="cb31-11"><a href="appendix.html#cb31-11" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2016</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1748900</span>, <span class="dv">323660</span>, <span class="dv">75930</span>, <span class="dv">15690</span>),</span>
+<span id="cb31-12"><a href="appendix.html#cb31-12" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2017</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1811226</span>, <span class="dv">338151</span>, <span class="dv">79277</span>, <span class="dv">16213</span>),</span>
+<span id="cb31-13"><a href="appendix.html#cb31-13" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1911633</span>, <span class="dv">360545</span>, <span class="dv">84947</span>, <span class="dv">16224</span>),</span>
+<span id="cb31-14"><a href="appendix.html#cb31-14" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2019</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1959494</span>, <span class="dv">380634</span>, <span class="dv">87121</span>, <span class="dv">15326</span>),</span>
+<span id="cb31-15"><a href="appendix.html#cb31-15" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2020</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1941088</span>, <span class="dv">384927</span>, <span class="dv">86530</span>, <span class="dv">15228</span>)</span>
+<span id="cb31-16"><a href="appendix.html#cb31-16" tabindex="-1"></a>)</span>
+<span id="cb31-17"><a href="appendix.html#cb31-17" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="appendix.html#cb31-18" tabindex="-1"></a>dataV13320 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-19"><a href="appendix.html#cb31-19" tabindex="-1"></a>  <span class="at">Sector =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>),</span>
+<span id="cb31-20"><a href="appendix.html#cb31-20" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2014</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">46475.90</span>, <span class="fl">6727.30</span>, <span class="fl">1234.80</span>, <span class="fl">278.0</span>),</span>
+<span id="cb31-21"><a href="appendix.html#cb31-21" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2015</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">47835.60</span>, <span class="fl">6911.20</span>, <span class="fl">1323.60</span>, <span class="fl">305.3</span>),</span>
+<span id="cb31-22"><a href="appendix.html#cb31-22" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2016</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">49573.20</span>, <span class="fl">7200.80</span>, <span class="fl">1373.40</span>, <span class="fl">330.6</span>),</span>
+<span id="cb31-23"><a href="appendix.html#cb31-23" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2017</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">51890.30</span>, <span class="fl">7642.40</span>, <span class="fl">1472.60</span>, <span class="fl">340.2</span>),</span>
+<span id="cb31-24"><a href="appendix.html#cb31-24" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">56432.80</span>, <span class="fl">8499.60</span>, <span class="fl">1636.00</span>, <span class="fl">362.4</span>),</span>
+<span id="cb31-25"><a href="appendix.html#cb31-25" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2019</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">59006.30</span>, <span class="fl">9013.10</span>, <span class="fl">1680.00</span>, <span class="fl">359.5</span>),</span>
+<span id="cb31-26"><a href="appendix.html#cb31-26" tabindex="-1"></a>  <span class="st">`</span><span class="at">X2020</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">57151.60</span>, <span class="fl">9089.40</span>, <span class="fl">1618.40</span>, <span class="fl">375.7</span>)</span>
+<span id="cb31-27"><a href="appendix.html#cb31-27" tabindex="-1"></a>)</span>
+<span id="cb31-28"><a href="appendix.html#cb31-28" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="appendix.html#cb31-29" tabindex="-1"></a><span class="co"># Compute the ratio</span></span>
+<span id="cb31-30"><a href="appendix.html#cb31-30" tabindex="-1"></a>ratio_data <span class="ot">&lt;-</span> (dataV13320[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">/</span> dataV16130[<span class="sc">-</span><span class="dv">1</span>]) <span class="sc">*</span> <span class="dv">1000</span>  <span class="co"># Exclude &#39;Sector&#39; column and multiply by 1000 for EUR (000)</span></span>
+<span id="cb31-31"><a href="appendix.html#cb31-31" tabindex="-1"></a>ratio_data<span class="sc">$</span>Sector <span class="ot">&lt;-</span> dataV16130<span class="sc">$</span>Sector  <span class="co"># Re-add Sector column</span></span>
+<span id="cb31-32"><a href="appendix.html#cb31-32" tabindex="-1"></a></span>
+<span id="cb31-33"><a href="appendix.html#cb31-33" tabindex="-1"></a><span class="co"># Reshape data for plotting</span></span>
+<span id="cb31-34"><a href="appendix.html#cb31-34" tabindex="-1"></a>ratio_data_long <span class="ot">&lt;-</span> ratio_data <span class="sc">%&gt;%</span></span>
+<span id="cb31-35"><a href="appendix.html#cb31-35" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;X&quot;</span>), <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Ratio&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-36"><a href="appendix.html#cb31-36" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, Year)))</span>
+<span id="cb31-37"><a href="appendix.html#cb31-37" tabindex="-1"></a></span>
+<span id="cb31-38"><a href="appendix.html#cb31-38" tabindex="-1"></a><span class="co"># Set the order of the Sector factor levels for plotting</span></span>
+<span id="cb31-39"><a href="appendix.html#cb31-39" tabindex="-1"></a>ratio_data_long<span class="sc">$</span>Sector <span class="ot">&lt;-</span> <span class="fu">factor</span>(ratio_data_long<span class="sc">$</span>Sector, </span>
+<span id="cb31-40"><a href="appendix.html#cb31-40" tabindex="-1"></a>                                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Manufacturing (C)&quot;</span>, <span class="st">&quot;Food (C10)&quot;</span>, <span class="st">&quot;Bakery (C107)&quot;</span>, <span class="st">&quot;Snacks (C1072)&quot;</span>))</span>
+<span id="cb31-41"><a href="appendix.html#cb31-41" tabindex="-1"></a></span>
+<span id="cb31-42"><a href="appendix.html#cb31-42" tabindex="-1"></a><span class="co"># Plot with updated colors and outline</span></span>
+<span id="cb31-43"><a href="appendix.html#cb31-43" tabindex="-1"></a><span class="fu">ggplot</span>(ratio_data_long, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Ratio, <span class="at">fill =</span> Sector)) <span class="sc">+</span></span>
+<span id="cb31-44"><a href="appendix.html#cb31-44" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span>  <span class="co"># Add black outline to bars</span></span>
+<span id="cb31-45"><a href="appendix.html#cb31-45" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#FBB4AE&quot;</span>, <span class="st">&quot;#B3CDE3&quot;</span>, <span class="st">&quot;#CCEBC5&quot;</span>, <span class="st">&quot;#DECBE4&quot;</span>)) <span class="sc">+</span>  <span class="co"># Updated colors based on screenshot</span></span>
+<span id="cb31-46"><a href="appendix.html#cb31-46" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-47"><a href="appendix.html#cb31-47" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Average Cost of Personnel&quot;</span>,</span>
+<span id="cb31-48"><a href="appendix.html#cb31-48" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Spain&quot;</span>,</span>
+<span id="cb31-49"><a href="appendix.html#cb31-49" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb31-50"><a href="appendix.html#cb31-50" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;EUR (000)&quot;</span>,  </span>
+<span id="cb31-51"><a href="appendix.html#cb31-51" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: Eurostat (sbs_na_ind_r2 V13320/V16130)&quot;</span></span>
+<span id="cb31-52"><a href="appendix.html#cb31-52" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-53"><a href="appendix.html#cb31-53" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2014</span>, <span class="dv">2020</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb31-54"><a href="appendix.html#cb31-54" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb31-55"><a href="appendix.html#cb31-55" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb31-56"><a href="appendix.html#cb31-56" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb31-57"><a href="appendix.html#cb31-57" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb31-58"><a href="appendix.html#cb31-58" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+</div>
+<div id="segments" class="section level2 unnumbered hasAnchor">
+<h2>Segments<a href="appendix.html#segments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="appendix.html#cb32-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb32-2"><a href="appendix.html#cb32-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb32-3"><a href="appendix.html#cb32-3" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb32-4"><a href="appendix.html#cb32-4" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb32-5"><a href="appendix.html#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="appendix.html#cb32-6" tabindex="-1"></a><span class="co"># Read the data</span></span>
+<span id="cb32-7"><a href="appendix.html#cb32-7" tabindex="-1"></a>DFR <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/DFR.xlsx&quot;</span>)</span>
+<span id="cb32-8"><a href="appendix.html#cb32-8" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="appendix.html#cb32-9" tabindex="-1"></a><span class="co"># Define time range (replace these values with actual range from your data)</span></span>
+<span id="cb32-10"><a href="appendix.html#cb32-10" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)</span>
+<span id="cb32-11"><a href="appendix.html#cb32-11" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="appendix.html#cb32-12" tabindex="-1"></a><span class="co"># Wrangle data and plot</span></span>
+<span id="cb32-13"><a href="appendix.html#cb32-13" tabindex="-1"></a>DFR <span class="sc">|&gt;</span></span>
+<span id="cb32-14"><a href="appendix.html#cb32-14" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-15"><a href="appendix.html#cb32-15" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Value =</span> <span class="fu">as.numeric</span>(Value)) <span class="sc">|&gt;</span> <span class="co"># Convert to numeric</span></span>
+<span id="cb32-16"><a href="appendix.html#cb32-16" tabindex="-1"></a>  <span class="fu">filter</span>(Geography <span class="sc">==</span> <span class="st">&quot;Spain&quot;</span>, <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Value RSP&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-17"><a href="appendix.html#cb32-17" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Fruit Snacks&quot;</span>, <span class="st">&quot;Snack Bars&quot;</span>, <span class="st">&quot;Sweet Biscuits&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb32-18"><a href="appendix.html#cb32-18" tabindex="-1"></a>  <span class="fu">group_by</span>(Geography, Year) <span class="sc">|&gt;</span></span>
+<span id="cb32-19"><a href="appendix.html#cb32-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tot_Value =</span> <span class="fu">sum</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="co"># Handle possible NA values</span></span>
+<span id="cb32-20"><a href="appendix.html#cb32-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Share =</span> (Value <span class="sc">/</span> Tot_Value) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-21"><a href="appendix.html#cb32-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">as.integer</span>(Year)) <span class="sc">|&gt;</span></span>
+<span id="cb32-22"><a href="appendix.html#cb32-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Share, <span class="at">fill =</span> <span class="fu">fct_reorder</span>(Category, Share))) <span class="sc">+</span></span>
+<span id="cb32-23"><a href="appendix.html#cb32-23" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb32-24"><a href="appendix.html#cb32-24" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(Share, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), </span>
+<span id="cb32-25"><a href="appendix.html#cb32-25" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb32-26"><a href="appendix.html#cb32-26" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(time_range[<span class="dv">1</span>], time_range[<span class="dv">2</span>]), </span>
+<span id="cb32-27"><a href="appendix.html#cb32-27" tabindex="-1"></a>                     <span class="at">minor_breaks =</span> <span class="fu">seq</span>(time_range[<span class="dv">1</span>], time_range[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb32-28"><a href="appendix.html#cb32-28" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb32-29"><a href="appendix.html#cb32-29" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-30"><a href="appendix.html#cb32-30" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-31"><a href="appendix.html#cb32-31" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks Segments&quot;</span>,</span>
+<span id="cb32-32"><a href="appendix.html#cb32-32" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Values, %&quot;</span>,</span>
+<span id="cb32-33"><a href="appendix.html#cb32-33" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb32-34"><a href="appendix.html#cb32-34" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;%&quot;</span>,</span>
+<span id="cb32-35"><a href="appendix.html#cb32-35" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb32-36"><a href="appendix.html#cb32-36" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Passport/Euromonitor&quot;</span></span>
+<span id="cb32-37"><a href="appendix.html#cb32-37" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb32-38"><a href="appendix.html#cb32-38" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb32-39"><a href="appendix.html#cb32-39" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb32-40"><a href="appendix.html#cb32-40" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>),</span>
+<span id="cb32-41"><a href="appendix.html#cb32-41" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb32-42"><a href="appendix.html#cb32-42" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb32-43"><a href="appendix.html#cb32-43" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb32-44"><a href="appendix.html#cb32-44" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb32-45"><a href="appendix.html#cb32-45" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-46"><a href="appendix.html#cb32-46" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
+<div id="subsegments" class="section level2 unnumbered hasAnchor">
+<h2>Subsegments<a href="appendix.html#subsegments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="appendix.html#cb33-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb33-2"><a href="appendix.html#cb33-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb33-3"><a href="appendix.html#cb33-3" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb33-4"><a href="appendix.html#cb33-4" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb33-5"><a href="appendix.html#cb33-5" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="appendix.html#cb33-6" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb33-7"><a href="appendix.html#cb33-7" tabindex="-1"></a>subsegments <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/Desktop/uni/year 2/Market Analysis/datasets/subsegments.xlsx&quot;</span>)</span>
+<span id="cb33-8"><a href="appendix.html#cb33-8" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="appendix.html#cb33-9" tabindex="-1"></a><span class="co"># Define time range (replace with your specific time range values)</span></span>
+<span id="cb33-10"><a href="appendix.html#cb33-10" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, <span class="dv">2023</span>)</span>
+<span id="cb33-11"><a href="appendix.html#cb33-11" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="appendix.html#cb33-12" tabindex="-1"></a><span class="co"># Wrangle the data and plot</span></span>
+<span id="cb33-13"><a href="appendix.html#cb33-13" tabindex="-1"></a>subsegments <span class="sc">%&gt;%</span></span>
+<span id="cb33-14"><a href="appendix.html#cb33-14" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2014</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2023</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-15"><a href="appendix.html#cb33-15" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Value =</span> <span class="fu">as.numeric</span>(Value)) <span class="sc">%&gt;%</span>  <span class="co"># Convert Value to numeric</span></span>
+<span id="cb33-16"><a href="appendix.html#cb33-16" tabindex="-1"></a>  <span class="fu">filter</span>(Geography <span class="sc">==</span> <span class="st">&quot;Spain&quot;</span>, </span>
+<span id="cb33-17"><a href="appendix.html#cb33-17" tabindex="-1"></a>         <span class="st">`</span><span class="at">Data Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Retail Value RSP&quot;</span>, </span>
+<span id="cb33-18"><a href="appendix.html#cb33-18" tabindex="-1"></a>         Year <span class="sc">%in%</span> time_range[<span class="dv">1</span>]<span class="sc">:</span>time_range[<span class="dv">2</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb33-19"><a href="appendix.html#cb33-19" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Dried Fruit&quot;</span>, <span class="st">&quot;Processed Fruit Snacks&quot;</span>, <span class="st">&quot;Cereal Bars&quot;</span>, </span>
+<span id="cb33-20"><a href="appendix.html#cb33-20" tabindex="-1"></a>                         <span class="st">&quot;Protein/Energy Bars&quot;</span>, <span class="st">&quot;Fruit and Nut Bars&quot;</span>, </span>
+<span id="cb33-21"><a href="appendix.html#cb33-21" tabindex="-1"></a>                         <span class="st">&quot;Chocolate Coated Biscuits&quot;</span>, <span class="st">&quot;Cookies&quot;</span>, </span>
+<span id="cb33-22"><a href="appendix.html#cb33-22" tabindex="-1"></a>                         <span class="st">&quot;Filled Biscuits&quot;</span>, <span class="st">&quot;Plain Biscuits&quot;</span>, <span class="st">&quot;Wafers&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-23"><a href="appendix.html#cb33-23" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Main_category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb33-24"><a href="appendix.html#cb33-24" tabindex="-1"></a>    Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Dried Fruit&quot;</span>, <span class="st">&quot;Processed Fruit Snacks&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Fruit Snacks&quot;</span>,</span>
+<span id="cb33-25"><a href="appendix.html#cb33-25" tabindex="-1"></a>    Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Cereal Bars&quot;</span>, <span class="st">&quot;Protein/Energy Bars&quot;</span>, <span class="st">&quot;Fruit and Nut Bars&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Snack Bars&quot;</span>,</span>
+<span id="cb33-26"><a href="appendix.html#cb33-26" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Sweet Biscuits&quot;</span></span>
+<span id="cb33-27"><a href="appendix.html#cb33-27" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb33-28"><a href="appendix.html#cb33-28" tabindex="-1"></a>  <span class="fu">group_by</span>(Geography, Year, Main_category) <span class="sc">%&gt;%</span></span>
+<span id="cb33-29"><a href="appendix.html#cb33-29" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tot_Value =</span> <span class="fu">sum</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span>  <span class="co"># Sum by group, ignoring NA values</span></span>
+<span id="cb33-30"><a href="appendix.html#cb33-30" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb33-31"><a href="appendix.html#cb33-31" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Share =</span> (Value <span class="sc">/</span> Tot_Value) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span>  <span class="co"># Calculate percentage share</span></span>
+<span id="cb33-32"><a href="appendix.html#cb33-32" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">as.integer</span>(Year)) <span class="sc">%&gt;%</span>  <span class="co"># Ensure Year is numeric for ggplot</span></span>
+<span id="cb33-33"><a href="appendix.html#cb33-33" tabindex="-1"></a>  <span class="fu">drop_na</span>(Share) <span class="sc">%&gt;%</span>  <span class="co"># Remove rows with NA Share values</span></span>
+<span id="cb33-34"><a href="appendix.html#cb33-34" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Category =</span> <span class="fu">fct_reorder</span>(Category, Share, <span class="at">.fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span>  <span class="co"># Reorder categories</span></span>
+<span id="cb33-35"><a href="appendix.html#cb33-35" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Share, <span class="at">fill =</span> Category)) <span class="sc">+</span></span>
+<span id="cb33-36"><a href="appendix.html#cb33-36" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-37"><a href="appendix.html#cb33-37" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(Share, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), </span>
+<span id="cb33-38"><a href="appendix.html#cb33-38" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb33-39"><a href="appendix.html#cb33-39" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(time_range[<span class="dv">1</span>]), <span class="fu">max</span>(time_range[<span class="dv">2</span>]), <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span>  <span class="co"># Continuous scale for years</span></span>
+<span id="cb33-40"><a href="appendix.html#cb33-40" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Main_category, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb33-41"><a href="appendix.html#cb33-41" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb33-42"><a href="appendix.html#cb33-42" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb33-43"><a href="appendix.html#cb33-43" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb33-44"><a href="appendix.html#cb33-44" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Sweet Snacks Subsegments&quot;</span>,</span>
+<span id="cb33-45"><a href="appendix.html#cb33-45" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Values, %&quot;</span>,</span>
+<span id="cb33-46"><a href="appendix.html#cb33-46" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb33-47"><a href="appendix.html#cb33-47" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;%&quot;</span>,</span>
+<span id="cb33-48"><a href="appendix.html#cb33-48" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb33-49"><a href="appendix.html#cb33-49" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Passport/Euromonitor&quot;</span></span>
+<span id="cb33-50"><a href="appendix.html#cb33-50" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-51"><a href="appendix.html#cb33-51" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb33-52"><a href="appendix.html#cb33-52" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb33-53"><a href="appendix.html#cb33-53" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>),</span>
+<span id="cb33-54"><a href="appendix.html#cb33-54" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb33-55"><a href="appendix.html#cb33-55" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb33-56"><a href="appendix.html#cb33-56" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb33-57"><a href="appendix.html#cb33-57" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb33-58"><a href="appendix.html#cb33-58" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,<span class="at">family =</span> <span class="st">&quot;serif&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb33-59"><a href="appendix.html#cb33-59" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="conclusions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/06-share.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"code_folding": "hide"
+});
+});
+</script>
+
+</body>
+
+</html>
